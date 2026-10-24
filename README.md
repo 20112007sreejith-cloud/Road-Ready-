@@ -192,11 +192,17 @@ npm run test:watch
 npx tsx scripts/verify-api.ts
 ```
 
-### Production Build
+### Production Build & Deployment
 ```bash
 # Typecheck with TypeScript and build Vite production bundle
 npm run build
+
+# Deploy directly to GitHub Pages (gh-pages branch)
+npm run deploy
 ```
+
+### Live Demo URL
+- **GitHub Pages**: [https://20112007sreejith-cloud.github.io/Vehicles/](https://20112007sreejith-cloud.github.io/Vehicles/)
 
 ---
 
