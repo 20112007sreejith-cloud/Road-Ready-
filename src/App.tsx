@@ -78,12 +78,18 @@ export const App: React.FC = () => {
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
   const [voiceInitialTranscript, setVoiceInitialTranscript] = useState('');
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
+  const [assistantInitialQuestion, setAssistantInitialQuestion] = useState<string | null>(null);
   const [isTutorialOpen, setIsTutorialOpen] = useState(false);
   const [selectedJurisdiction, setSelectedJurisdiction] = useState<string>(
     () => store.getState().selectedJurisdiction || 'KA'
   );
   const [searchQuery, setSearchQuery] = useState('');
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'warning' | 'info' } | null>(null);
+
+  const handleOpenAssistant = (questionId?: string) => {
+    setAssistantInitialQuestion(questionId || null);
+    setIsAssistantOpen(true);
+  };
 
   // Show tutorial on first session visit
   useEffect(() => {
@@ -238,7 +244,7 @@ export const App: React.FC = () => {
           setVoiceInitialTranscript('');
           setIsVoiceOpen(true);
         }}
-        onOpenAssistant={() => setIsAssistantOpen(true)}
+        onOpenAssistant={() => handleOpenAssistant()}
         onOpenTutorial={() => setIsTutorialOpen(true)}
         onResetDemo={handleResetAll}
         onSearchChange={setSearchQuery}
@@ -257,6 +263,11 @@ export const App: React.FC = () => {
             showToast(`Switched active state jurisdiction to ${code}.`, 'info');
           }
         }}
+        vehicles={vehicles}
+        licences={licences}
+        challans={challans}
+        tasks={tasks}
+        onNavigate={setCurrentView}
       />
 
       {/* Main Container: Sidebar + Content */}
@@ -286,6 +297,7 @@ export const App: React.FC = () => {
               onOpenVoice={() => setIsVoiceOpen(true)}
               onTriggerScarcity={handleToggleScarcity}
               onOpenTutorial={() => setIsTutorialOpen(true)}
+              onOpenAssistant={handleOpenAssistant}
             />
           )}
 
@@ -437,7 +449,7 @@ export const App: React.FC = () => {
           onClose={() => setIsVoiceOpen(false)}
           initialTranscript={voiceInitialTranscript}
           onConfirmIdentifier={(id) => {
-            showToast(`Voice identifier "${id}" confirmed and normalized.`, 'success');
+            showToast(`Vehicle plate identifier "${id}" confirmed and normalized.`, 'success');
           }}
         />
       )}
@@ -446,10 +458,14 @@ export const App: React.FC = () => {
       {isAssistantOpen && (
         <GuidedAssistantModal
           isOpen={isAssistantOpen}
-          onClose={() => setIsAssistantOpen(false)}
+          onClose={() => {
+            setIsAssistantOpen(false);
+            setAssistantInitialQuestion(null);
+          }}
           tasks={tasks}
           onNavigate={setCurrentView}
           onCompleteTask={handleCompleteTask}
+          initialQuestionId={assistantInitialQuestion}
         />
       )}
 

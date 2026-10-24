@@ -141,8 +141,8 @@ export const VoiceIdentifierModal: React.FC<VoiceIdentifierModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Voice-Assisted Vehicle & Licence Identifier Entry"
-      description="Accessible hands-free entry with phonetic normalization and explicit O/0 & B/8 ambiguity resolution."
+      title="Vehicle Entry & Plate Identifier"
+      description="Fast vehicle plate entry with speech recognition, smart phonetic normalization, and explicit O/0 & B/8 ambiguity resolution."
       maxWidth="lg"
       footer={
         <div className="flex items-center justify-between w-full">
@@ -151,7 +151,7 @@ export const VoiceIdentifierModal: React.FC<VoiceIdentifierModalProps> = ({
             className="text-xs text-slate-500 hover:text-blue-600 flex items-center gap-1 cursor-pointer"
           >
             <Keyboard className="w-3.5 h-3.5" />
-            {useManualMode ? 'Switch to Voice Entry' : 'Manual Keyboard Fallback'}
+            {useManualMode ? 'Switch to Voice Vehicle Entry' : 'Manual Keyboard Fallback'}
           </button>
 
           <div className="flex items-center gap-2">

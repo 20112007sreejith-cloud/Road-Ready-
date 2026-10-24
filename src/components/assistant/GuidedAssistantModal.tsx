@@ -1,5 +1,5 @@
 // src/components/assistant/GuidedAssistantModal.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sparkles,
   MessageSquare,
@@ -19,6 +19,7 @@ interface GuidedAssistantModalProps {
   tasks: WorkflowTask[];
   onNavigate: (view: any) => void;
   onCompleteTask: (taskId: string) => void;
+  initialQuestionId?: string | null;
 }
 
 export const GuidedAssistantModal: React.FC<GuidedAssistantModalProps> = ({
@@ -27,8 +28,15 @@ export const GuidedAssistantModal: React.FC<GuidedAssistantModalProps> = ({
   tasks,
   onNavigate,
   onCompleteTask,
+  initialQuestionId,
 }) => {
-  const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
+  const [selectedQuestion, setSelectedQuestion] = useState<string | null>(initialQuestionId || null);
+
+  useEffect(() => {
+    if (initialQuestionId) {
+      setSelectedQuestion(initialQuestionId);
+    }
+  }, [initialQuestionId]);
 
   const blockedTasks = tasks.filter((t) => t.status === 'BLOCKED');
   const challanTask = tasks.find((t) => t.id === 'TASK-CHALLAN');
